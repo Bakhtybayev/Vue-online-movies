@@ -29,9 +29,6 @@ export default {
 		average: Number,
 		date: String
 	},
-	created() {
-
-	},
 	methods: {
 		navigateToMoviePage(id) {
 			this.$router.push(`/movie/${id}`)

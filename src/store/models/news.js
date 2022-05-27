@@ -6,18 +6,8 @@ export default {
 			commit('toggleIsFetching', true)
 			const res = await moviesService.getMoviesList(page);
 			commit('updateMovies', res.results);
-			console.log("Actions!")
-			// 
-			console.log('Results:', res.results);
-			// 
 			commit('updateTotalPages', res.total_pages);
-			// 
-			console.log('Total_Pages:', res.total_pages);
-			// 
 			commit('updateCurrentPage', page);
-			// 
-			console.log('CurrentPage:', page);
-			// 
 			commit('toggleIsFetching', false);
 		},
 		async getMovie({commit}, movieId) {
@@ -30,7 +20,6 @@ export default {
 	mutations: {
 		updateMovies(state, payload) {
 			state.movies =  payload;
-			console.log('UpdateMovies(MUT):', state.movies);
 		},
 		updateMovie(state, payload) {
 			state.movie = payload;
@@ -40,11 +29,9 @@ export default {
 		},
 		updateTotalPages(state, payload) {
 			state.totalMoviesCount = payload;
-			console.log('TotalPages(MUT):', state.totalMoviesCount);
 		},
 		updateCurrentPage(state, payload) {
 			state.currentPage = payload;
-			console.log('CurrentPage(MUT):', state.currentPage);
 		}
 	},
 	state: {
@@ -57,7 +44,6 @@ export default {
 	},
 	getters: {
 		allMovies(state) {
-			console.log('allMovies(GETTER):', state.movies);
 			return state.movies;
 		},
 		oneMovie(state) {
@@ -67,11 +53,9 @@ export default {
 			return state.isFetching;
 		},
 		getCurrentPage(state) {
-			console.log('CurrentPage(GETTER):', state.currentPage);
 			return state.currentPage;
 		},
 		getTotalMoviesCount(state) {
-			console.log('getTotalMoviesCount(GETTER):', state.totalMoviesCount);
 			return state.totalMoviesCount
 		},
 		getPageMoviesCount(state) {
