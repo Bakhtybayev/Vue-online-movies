@@ -2,19 +2,27 @@ import moviesService from "../../api/services/moviesService.js";
 
 export default {
 	actions: {
-		async getMovies({commit, state, mutations}, page) {
+		async getMovies({commit}, page) {
 			commit('toggleIsFetching', true)
 			const res = await moviesService.getMoviesList(page);
 			commit('updateMovies', res.results);
+			console.log("Actions!")
+			// 
+			console.log('Results:', res.results);
+			// 
+			commit('updateTotalPages', res.total_pages);
+			// 
+			console.log('Total_Pages:', res.total_pages);
+			// 
 			commit('updateCurrentPage', page);
-			commit('updateTotalMoviesCount', res.total_pages)
+			// 
+			console.log('CurrentPage:', page);
+			// 
 			commit('toggleIsFetching', false);
 		},
-		async getMovie({commit, getters, state}, movieId) {
+		async getMovie({commit}, movieId) {
 			commit('toggleIsFetching', true)
 			const res = await moviesService.getMovieById(movieId);
-			getters.oneMovie(res);
-
 			commit('updateMovie', res);
 			commit('toggleIsFetching', false);
 		}
@@ -22,6 +30,7 @@ export default {
 	mutations: {
 		updateMovies(state, payload) {
 			state.movies =  payload;
+			console.log('UpdateMovies(MUT):', state.movies);
 		},
 		updateMovie(state, payload) {
 			state.movie = payload;
@@ -29,16 +38,18 @@ export default {
 		toggleIsFetching(state, payload) {
 			state.isFetching = payload;
 		},
+		updateTotalPages(state, payload) {
+			state.totalMoviesCount = payload;
+			console.log('TotalPages(MUT):', state.totalMoviesCount);
+		},
 		updateCurrentPage(state, payload) {
 			state.currentPage = payload;
-		},
-		updateTotalMoviesCount(state, payload) {
-			state.totalMoviesCount = payload;
+			console.log('CurrentPage(MUT):', state.currentPage);
 		}
 	},
 	state: {
-		movies: [],
 		movie: null,
+		movies: [],
 		isFetching: true,
 		currentPage: 1,
 		pageMoviesCount: 20,
@@ -46,6 +57,7 @@ export default {
 	},
 	getters: {
 		allMovies(state) {
+			console.log('allMovies(GETTER):', state.movies);
 			return state.movies;
 		},
 		oneMovie(state) {
@@ -55,13 +67,15 @@ export default {
 			return state.isFetching;
 		},
 		getCurrentPage(state) {
+			console.log('CurrentPage(GETTER):', state.currentPage);
 			return state.currentPage;
+		},
+		getTotalMoviesCount(state) {
+			console.log('getTotalMoviesCount(GETTER):', state.totalMoviesCount);
+			return state.totalMoviesCount
 		},
 		getPageMoviesCount(state) {
 			return state.pageMoviesCount;
-		},
-		getTotalMoviesCount(state) {
-			return state.totalMoviesCount;
 		}
 	}
 }

@@ -10,7 +10,6 @@ const moviesService = {
    },
    async getMovieById(movieId) {
       const response = await instance.get(`movie/${movieId}?api_key=64dd5fbe2a0241ba5b8c174482243af2&language=en-US`);
-      console.log('resdata', response.data)
 		return response.data;
    }
 }
